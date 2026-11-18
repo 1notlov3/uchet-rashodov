@@ -51,18 +51,39 @@ def show_expenses(expenses):
         print(day, category, amount, "руб.", comment)
 
 
+def totals(expenses, by_month=False):
+    result = {}
+    for day, category, amount, comment in expenses:
+        # для месяца берём из даты "ДД.ММ.ГГГГ" только "ММ.ГГГГ"
+        key = day[3:] if by_month else category
+        result[key] = result.get(key, 0) + float(amount)
+    return result
+
+
+def show_totals(result):
+    for key, amount in result.items():
+        print(key, "-", round(amount, 2), "руб.")
+    print("Всего:", round(sum(result.values()), 2), "руб.")
+
+
 def main():
     expenses = load_expenses()
     while True:
         print()
         print("1 - Добавить расход")
         print("2 - Показать все расходы")
+        print("3 - Итоги по категориям")
+        print("4 - Итоги по месяцам")
         print("0 - Выход")
         choice = input("Выберите пункт: ")
         if choice == "1":
             add_expense(expenses)
         elif choice == "2":
             show_expenses(expenses)
+        elif choice == "3":
+            show_totals(totals(expenses))
+        elif choice == "4":
+            show_totals(totals(expenses, by_month=True))
         elif choice == "0":
             break
         else:
