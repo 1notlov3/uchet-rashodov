@@ -32,7 +32,7 @@ def add_expense(expenses):
     category = CATEGORIES[int(choice) - 1]
 
     try:
-        amount = float(input("Сумма, руб.: "))
+        amount = float(input("Сумма, руб.: ").replace(",", "."))
     except ValueError:
         print("Сумма должна быть числом")
         return
